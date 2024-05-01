@@ -11,6 +11,7 @@ import {
   deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
+  signOut,
   updateUserFailure,
   updateUserStart,
   updateUserSuccess,
@@ -52,9 +53,11 @@ function Profile() {
       }
     );
   };
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -75,6 +78,7 @@ function Profile() {
       dispatch(updateUserFailure(error));
     }
   };
+
   const handleDeleteAccount = async () => {
     try {
       dispatch(deleteUserStart);
@@ -82,13 +86,22 @@ function Profile() {
         method: "DELETE",
       });
       const data = await res.json();
-      if(data.success === false) {
+      if (data.success === false) {
         dispatch(deleteUserFailure(data));
         return;
       }
       dispatch(deleteUserSuccess());
     } catch (error) {
-       dispatch(deleteUserFailure(error));
+      dispatch(deleteUserFailure(error));
+    }
+  };
+
+  const handleSignout = async () => {
+    try {
+      await fetch("/api/auth/signout");
+      dispatch(signOut());
+    } catch (error) {
+      console.log(error.message);
     }
   };
   return (
@@ -158,7 +171,9 @@ function Profile() {
         >
           Delete account
         </span>
-        <span className="text-red-700 cursor-pointer">Sign out</span>
+        <span className="text-red-700 cursor-pointer" onClick={handleSignout}>
+          Sign out
+        </span>
       </div>
       <p className="text-red-700 mt-5">{error && "Something went wrong!"}</p>
       <p className="text-green-700 mt-5">
