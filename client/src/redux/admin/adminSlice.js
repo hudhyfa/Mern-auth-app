@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isAdminLogged: false,
   loading: false,
-  error: "",
+  isError: false,
+  error: undefined
 };
 
 const adminSlice = createSlice({
@@ -12,17 +12,23 @@ const adminSlice = createSlice({
   reducers: {
     logInStart: (state) => {
       state.loading = true;
+      state.isError = false;
     },
     logInSuccess: (state) => {
-      state.isAdminLogged = true;
       state.loading = false;
+      state.isError = false;
     },
     logInFailure: (state, action) => {
       state.loading = false;
-      state.errorStatus = true;
+      state.isError = true;
+      state.error = action.payload;
     },
+    refreshPage: (state) => {
+      state.isError = false;
+      state.error = undefined;
+    }
   },
 });
 
-export const { logInStart, logInSuccess, logInFailure } = adminSlice.actions;
+export const { logInStart, logInSuccess, logInFailure, refreshPage } = adminSlice.actions;
 export default adminSlice.reducer;

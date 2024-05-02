@@ -1,21 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   logInFailure,
   logInStart,
   logInSuccess,
+  refreshPage,
 } from "../redux/admin/adminSlice";
 import { useNavigate } from "react-router-dom";
 
 function AdminLogin() {
   const [formData, setformData] = useState({});
   const dispatch = useDispatch();
-  const { loading, error, isAdminLogged } = useSelector((state) => state.admin);
-  console.log(loading, error, isAdminLogged);
-  const navigate = useNavigate('/');
+  const { loading, isError, error } = useSelector((state) => state.admin);
+  const navigate = useNavigate();
+  useEffect(() => {
+    dispatch(refreshPage());
+  }, []);
+
   const handleChange = (e) => {
     setformData({ ...formData, [e.target.id]: e.target.value });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -26,15 +31,17 @@ function AdminLogin() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      if ((data.success === false)) {
+      if (data.success === false) {
         dispatch(logInFailure(data));
+        return;
       }
       dispatch(logInSuccess());
-      navigate('/admin');
+      navigate("/admin");
     } catch (error) {
       dispatch(logInFailure(error));
     }
   };
+  
   return (
     <>
       <section className="bg-gray-50">
@@ -87,7 +94,7 @@ function AdminLogin() {
                   {loading ? "Loading..." : "Sign in"}
                 </button>
                 <p className="text-red-700 mt-3">
-                  {error ? `${error.message}` : ""}
+                  {isError && `${error.message}`}
                 </p>
               </form>
             </div>
