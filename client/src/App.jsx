@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import PrivateRoute from "./components/PrivateRoute";
 import Admin from "./pages/Admin";
 import AdminLogin from "./pages/AdminLogin";
+import UserDetails from "./pages/UserDetails";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
         {/* Admin routes */}
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/admin-user-details/:id" element={<UserDetails />} />
       </Routes>
     </BrowserRouter>
   );

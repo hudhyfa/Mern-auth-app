@@ -58,7 +58,7 @@ function Admin() {
                       <td className="px-6 py-4">{user.username}</td>
                       <td className="px-6 py-4">
                         <Link
-                          to={'/'}
+                          to={`/admin-user-details/${user._id}`}
                           className="font-medium text-blue-600  hover:underline"
                         >
                           Edit
@@ -67,7 +67,7 @@ function Admin() {
                     </tr>
                   );
                 })
-              : "No users, its okay don't woory"}
+              : "No users, its okay don't worry"}
           </tbody>
         </table>
       </div>
