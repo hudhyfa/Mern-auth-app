@@ -88,3 +88,11 @@ export const google = async (req, res, next) => {
 export const signout = (req, res) => {
   res.clearCookie("access_token").status(200).json({message: "Signout success!"})
 }
+
+export const adminLogin = (req, res, next) => {
+  const { AdminEmail, AdminPassword } = req.body;
+  if(AdminEmail === "admin@gmail.com" && AdminPassword === "asdfasdf") {
+    return res.status(200).json({message: "Login success!"})
+  }
+  return next(errorHandler(403,"Invalid credentials!"));
+}

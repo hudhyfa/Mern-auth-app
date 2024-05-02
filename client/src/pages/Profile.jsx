@@ -81,7 +81,7 @@ function Profile() {
 
   const handleDeleteAccount = async () => {
     try {
-      dispatch(deleteUserStart);
+      dispatch(deleteUserStart());
       const res = await fetch(`/api/user/delete/${currentUser._id}`, {
         method: "DELETE",
       });

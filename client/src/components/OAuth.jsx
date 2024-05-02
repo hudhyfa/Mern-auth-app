@@ -10,10 +10,12 @@ function OAuth() {
     const navigate = useNavigate();
   const handleGoogleClick = async () => {
     try {
-        const provider = new GoogleAuthProvider();
-        const auth = getAuth(app);
+      const provider = new GoogleAuthProvider();
+      const auth = getAuth(app);
+        console.log(auth);
+        console.log("provider: " + provider);
         const result = await signInWithPopup(auth, provider);
-        console.log("result: " + result);
+        console.log("result: " + result[0]);
         const res = await fetch('/api/auth/google', {
             method: 'POST',
             headers: {
