@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   loading: false,
   isError: false,
-  error: undefined
+  error: undefined,
+  isAdminLogged: false
 };
 
 const adminSlice = createSlice({
@@ -17,6 +18,7 @@ const adminSlice = createSlice({
     logInSuccess: (state) => {
       state.loading = false;
       state.isError = false;
+      state.isAdminLogged = true;
     },
     logInFailure: (state, action) => {
       state.loading = false;
@@ -26,9 +28,12 @@ const adminSlice = createSlice({
     refreshPage: (state) => {
       state.isError = false;
       state.error = undefined;
+    },
+    SignOutSuccess: (state) => {
+      state.isAdminLogged = false;
     }
   },
 });
 
-export const { logInStart, logInSuccess, logInFailure, refreshPage } = adminSlice.actions;
+export const { logInStart, logInSuccess, logInFailure, refreshPage, SignOutSuccess } = adminSlice.actions;
 export default adminSlice.reducer;
