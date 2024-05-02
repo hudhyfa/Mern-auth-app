@@ -3,8 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isAdminLogged: false,
   loading: false,
-  errorStatus: false,
-  error: null,
+  error: "",
 };
 
 const adminSlice = createSlice({
@@ -17,12 +16,10 @@ const adminSlice = createSlice({
     logInSuccess: (state) => {
       state.isAdminLogged = true;
       state.loading = false;
-      state.errorStatus = false;
     },
     logInFailure: (state, action) => {
       state.loading = false;
       state.errorStatus = true;
-      state.error = action.payload;
     },
   },
 });

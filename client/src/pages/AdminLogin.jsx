@@ -10,7 +10,8 @@ import { useNavigate } from "react-router-dom";
 function AdminLogin() {
   const [formData, setformData] = useState({});
   const dispatch = useDispatch();
-  const { loading, error, errorStatus } = useSelector((state) => state.admin);
+  const { loading, error, isAdminLogged } = useSelector((state) => state.admin);
+  console.log(loading, error, isAdminLogged);
   const navigate = useNavigate('/');
   const handleChange = (e) => {
     setformData({ ...formData, [e.target.id]: e.target.value });
@@ -86,7 +87,7 @@ function AdminLogin() {
                   {loading ? "Loading..." : "Sign in"}
                 </button>
                 <p className="text-red-700 mt-3">
-                  {/* {error ? `${error.message}` : ""} */}
+                  {error ? `${error.message}` : ""}
                 </p>
               </form>
             </div>

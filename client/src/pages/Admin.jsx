@@ -3,6 +3,32 @@ import { Link } from "react-router-dom";
 
 function Admin() {
   const [userData, setUserData] = useState([]);
+  const [currentData, setCurrentData] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [searchUser, setSearchUser] = useState("");
+  const compareDatas = () => {
+    if (filteredUsers.length > 0) {
+      setCurrentData(filteredUsers);
+    } else {
+      setCurrentData(userData);
+    }
+  };
+  const searchedUsers = async () => {
+    try {
+      const filteredUsers = userData.filter((user) =>
+        user.username.includes(searchUser)
+      );
+      setFilteredUsers(filteredUsers);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    searchedUsers();
+  }, [searchUser]);
+  useEffect(() => {
+    compareDatas();
+  }, [filteredUsers, userData]);
   const getUsers = async () => {
     try {
       const res = await fetch("/api/admin/panel");
@@ -17,8 +43,16 @@ function Admin() {
     getUsers();
   }, []);
   return (
-    <div className="p-6 max-w-7xl mx-auto my-auto">
+    <div className="p-6 max-w-4xl mx-auto mt-5">
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div className="flex justify-end items-center mb-4">
+          <input
+            type="text"
+            placeholder="Search user.."
+            className="bg-gray-300 text-gray-800 p-3 w-42 h-13 rounded border border-slate-700"
+            onChange={(e) => setSearchUser(e.target.value)}
+          />
+        </div>
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
@@ -37,8 +71,8 @@ function Admin() {
             </tr>
           </thead>
           <tbody>
-            {userData.length > 0
-              ? userData.map((user) => {
+            {currentData.length > 0
+              ? currentData.map((user) => {
                   return (
                     <tr
                       className="odd:bg-white  even:bg-gray-50"

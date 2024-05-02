@@ -5,7 +5,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { app } from "../firebase";
 
 function UserDetails() {
@@ -65,7 +65,7 @@ function UserDetails() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
-  console.log(formData);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -99,10 +99,12 @@ function UserDetails() {
   };
 
   return (
-    <div className="p-3 max-w-lg mx-auto ">
+    <div className="p-3 max-w-lg mx-auto">
       {currentUser && (
         <>
-          <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
+          <h1 className="text-3xl font-semibold text-center my-7">
+            User Details
+          </h1>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <input
               type="file"
@@ -169,6 +171,9 @@ function UserDetails() {
             >
               Delete account
             </span>
+            <Link to={"/admin"} className="text-slate-700 cursor-pointer">
+              Go back
+            </Link>
           </div>
           <p className="text-green-700 mt-5">
             {updated && "Profile updated !"}
